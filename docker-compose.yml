@@ -1,0 +1,10 @@
+services:
+  todolist-db:
+    image: postgres:15
+    container_name: todolist-db
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: prisma
+    ports:
+      - "5433:5432"  
