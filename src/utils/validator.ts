@@ -1,5 +1,6 @@
-import z from "zod";
+import z from 'zod';
 
 export const createTaskSchema = z.object({
-    name: z.string().min(1, 'É necessário definir o nome da tarefa')
-})
+  name: z.string().min(1, 'É necessário definir o nome da tarefa'),
+  isCompleted: z.boolean().default(false),
+});

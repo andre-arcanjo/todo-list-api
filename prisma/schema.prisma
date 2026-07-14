@@ -15,7 +15,7 @@ datasource db {
 
 model Task {
   id Int @id @default(autoincrement())
-  name String
+  name String @unique
   isCompleted Boolean @default(false) @map("is_completed")
   createdAt   DateTime @default(now()) @map("created_at")
 
