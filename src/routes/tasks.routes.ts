@@ -1,6 +1,6 @@
 import { FastifyInstance } from 'fastify';
 import { CreateTask, TasksFilters } from '../types';
-import { createTask, listTasks } from '../controllers/tasks.controller';
+import { createTask, listTasks, updateTask } from '../controllers/tasks.controller';
 
 export const tasksRoutes = async (fastify: FastifyInstance) => {
   fastify.get<{ Querystring: TasksFilters }>(
@@ -85,7 +85,7 @@ export const tasksRoutes = async (fastify: FastifyInstance) => {
           type: 'object',
           required: ['name'],
           properties: {
-            name: { type: 'string', description: 'Nome da tarefa' },
+            name: { type: 'string', description: 'Nome da tarefa' }, 
           },
         },
         response: {
@@ -94,6 +94,9 @@ export const tasksRoutes = async (fastify: FastifyInstance) => {
             type: 'object',
             properties: {
               message: { type: 'string' },
+              name: { type: 'string' },
+              isCompleted: { type: 'boolean' },
+              createdAt: { type: 'string', format: 'date-time' },
             },
           },
           400: {
@@ -118,5 +121,53 @@ export const tasksRoutes = async (fastify: FastifyInstance) => {
       },
     },
     createTask,
+  );
+
+  fastify.put<{ Params: { id: number } }>(
+    '/:id',
+    {
+      schema: {
+        tags: ['Tasks'],
+        description: 'Alterar o status de conclusão de uma tarefa',
+        params: {
+          type: 'object',
+          required: ['id'],
+          properties: {
+            id: { type: 'string', description: 'ID da tarefa' },
+          },
+        },
+        response: {
+          200: {
+            description: 'Tarefa atualizada com sucesso',
+            type: 'object',
+            properties: {
+              id: { type: 'number' },
+              name: { type: 'string' },
+              isCompleted: { type: 'boolean' },
+              createdAt: { type: 'string', format: 'date-time' },
+            },
+          },
+          400: {
+            description: 'Erro de validação',
+            type: 'object',
+            properties: {
+              message: { type: 'string' },
+              errors: {
+                type: 'object',
+                additionalProperties: true,
+              },
+            },
+          },
+          500: {
+            description: 'Erro interno do servidor',
+            type: 'object',
+            properties: {
+              message: { type: 'string' },
+            },
+          },
+        },
+      },
+    },
+    updateTask,
   );
 };

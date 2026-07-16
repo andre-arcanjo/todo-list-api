@@ -55,3 +55,20 @@ export const createNewTask = async (data: CreateTask) => {
   const newTask = await prisma.task.create({ data });
   return newTask;
 };
+
+export const updateExistingTask = async (id: number) => {
+  const existingTask = await prisma.task.findUnique({
+    where: { id },
+  });
+
+  if(!existingTask) {
+    throw new Error('Tarefa não encontrada')
+  }
+
+  const updatedTask = await prisma.task.update({
+    where: { id },
+    data: { isCompleted: !existingTask.isCompleted }
+  })
+
+  return updatedTask
+};

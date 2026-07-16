@@ -1,7 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { CreateTask, TasksFilters } from '../types';
 import { createTaskSchema, tasksFiltersSchema } from '../utils/validator';
-import { createNewTask, getTasks } from '../services/tasks.services';
+import {
+  createNewTask,
+  getTasks,
+  updateExistingTask,
+} from '../services/tasks.services';
 
 export const listTasks = async (
   request: FastifyRequest<{ Querystring: TasksFilters }>,
@@ -23,4 +27,14 @@ export const createTask = async (
     message: 'Tarefa criada com sucesso!',
     task: task,
   });
+};
+
+export const updateTask = async (
+  request: FastifyRequest<{ Params: { id: number } }>,
+  reply: FastifyReply,
+) => {
+  const { id } = request.params;
+
+  const task = await updateExistingTask(Number(id));
+  reply.status(200).send(task)
 };
