@@ -46,7 +46,7 @@ export const deleteTask = async (
 ) => {
   const { id } = request.params;
 
-  const taskDeleted = await deleteExistingTask(Number(id));
+  await deleteExistingTask(Number(id));
 
-  reply.status(200).send(taskDeleted);
+  reply.status(204).send();
 };

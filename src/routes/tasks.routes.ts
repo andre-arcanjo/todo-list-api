@@ -187,15 +187,8 @@ export const tasksRoutes = async (fastify: FastifyInstance) => {
           },
         },
         response: {
-          200: {
+          204: {
             description: 'Tarefa removida com sucesso',
-            type: 'object',
-            properties: {
-              id: { type: 'number' },
-              name: { type: 'string' },
-              isCompleted: { type: 'boolean' },
-              createdAt: { type: 'string', format: 'date-time' },
-            },
           },
           400: {
             description: 'Erro de validação',
