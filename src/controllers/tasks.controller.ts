@@ -3,6 +3,7 @@ import { CreateTask, TasksFilters } from '../types';
 import { createTaskSchema, tasksFiltersSchema } from '../utils/validator';
 import {
   createNewTask,
+  deleteExistingTask,
   getTasks,
   updateExistingTask,
 } from '../services/tasks.services';
@@ -30,7 +31,7 @@ export const createTask = async (
 };
 
 export const updateTask = async (
-  request: FastifyRequest<{ Params: { id: number } }>,
+  request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply,
 ) => {
   const { id } = request.params;
@@ -38,3 +39,11 @@ export const updateTask = async (
   const task = await updateExistingTask(Number(id));
   reply.status(200).send(task)
 };
+
+export const deleteTask = async (request: FastifyRequest<{Params: { id:string }}>, reply: FastifyReply,) => {
+  const { id } = request.params
+
+  const taskDeleted = await deleteExistingTask(Number(id))
+
+  reply.status(200).send(taskDeleted)
+}

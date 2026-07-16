@@ -61,14 +61,30 @@ export const updateExistingTask = async (id: number) => {
     where: { id },
   });
 
-  if(!existingTask) {
-    throw new Error('Tarefa não encontrada')
+  if (!existingTask) {
+    throw new Error('Tarefa não encontrada');
   }
 
   const updatedTask = await prisma.task.update({
     where: { id },
-    data: { isCompleted: !existingTask.isCompleted }
-  })
+    data: { isCompleted: !existingTask.isCompleted },
+  });
 
-  return updatedTask
+  return updatedTask;
+};
+
+export const deleteExistingTask = async (id: number) => {
+  const existingTask = await prisma.task.findUnique({
+    where: { id },
+  });
+
+  if (!existingTask) {
+    throw new Error('Tarefa não encontrada');
+  }
+
+  const deleteTask = await prisma.task.delete({
+    where: { id },
+  });
+
+  return deleteTask;
 };
