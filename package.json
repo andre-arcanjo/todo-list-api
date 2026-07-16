@@ -6,10 +6,12 @@
   "scripts": {
     "dev": "tsx watch src/app.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/app.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "test": "vitest",
+    "test:watch": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +31,7 @@
     "@types/node": "^26.1.1",
     "prisma": "^5.7.1",
     "tsx": "^4.23.0",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^1.0.0"
   }
 }
