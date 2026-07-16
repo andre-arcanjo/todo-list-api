@@ -70,7 +70,7 @@ fastify.listen({ port: PORT }, function (err, address) {
     fastify.log.error(err);
     process.exit(1);
   }
-  console.log('Servidor em execução em http://localhost:3000');
+  console.log(`Servidor em execução em ${address}`);
 });
 
 export default fastify;

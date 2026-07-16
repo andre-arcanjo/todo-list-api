@@ -6,5 +6,5 @@ export interface CreateTask {
 export interface TasksFilters {
   page?: number;
   limit?: number;
-  search?: string; 
+  search?: string;
 }

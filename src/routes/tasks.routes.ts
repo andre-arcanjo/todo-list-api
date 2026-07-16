@@ -19,12 +19,10 @@ export const tasksRoutes = async (fastify: FastifyInstance) => {
           properties: {
             page: {
               type: 'number',
-              minimum: 1,
               description: 'Página atual',
             },
             limit: {
               type: 'number',
-              minimum: 1,
               description: 'Quantidade de tarefas por página',
             },
             search: {
@@ -149,7 +147,6 @@ export const tasksRoutes = async (fastify: FastifyInstance) => {
               id: { type: 'number' },
               name: { type: 'string' },
               isCompleted: { type: 'boolean' },
-              createdAt: { type: 'string', format: 'date-time' },
             },
           },
           400: {

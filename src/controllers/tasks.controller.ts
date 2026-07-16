@@ -37,13 +37,16 @@ export const updateTask = async (
   const { id } = request.params;
 
   const task = await updateExistingTask(Number(id));
-  reply.status(200).send(task)
+  reply.status(200).send(task);
 };
 
-export const deleteTask = async (request: FastifyRequest<{Params: { id:string }}>, reply: FastifyReply,) => {
-  const { id } = request.params
+export const deleteTask = async (
+  request: FastifyRequest<{ Params: { id: string } }>,
+  reply: FastifyReply,
+) => {
+  const { id } = request.params;
 
-  const taskDeleted = await deleteExistingTask(Number(id))
+  const taskDeleted = await deleteExistingTask(Number(id));
 
-  reply.status(200).send(taskDeleted)
-}
+  reply.status(200).send(taskDeleted);
+};
