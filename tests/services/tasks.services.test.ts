@@ -10,6 +10,7 @@ vi.mock('../../src/utils/prisma', () => ({
       create: vi.fn(),
       update: vi.fn(),
       delete: vi.fn(),
+      deleteMany: vi.fn(),
     },
   },
 }));
@@ -36,58 +37,68 @@ describe('tasks.services', () => {
     expect(result.page).toBe(1);
   });
 
-  it('createNewTask throws if task exists', async () => {
+  it('createTask throws if task exists', async () => {
     const mod = await import('../../src/utils/prisma');
     const { prisma } = mod as any;
     prisma.task.findUnique.mockResolvedValue({ id: 1, name: 'Tarefa A' });
 
-    await expect(services.createNewTask({ name: 'Tarefa A' } as any)).rejects.toThrow();
+    await expect(services.createTask({ name: 'Tarefa A' } as any)).rejects.toThrow();
   });
 
-  it('createNewTask creates task when not exists', async () => {
+  it('createTask creates task when not exists', async () => {
     const mod = await import('../../src/utils/prisma');
     const { prisma } = mod as any;
     prisma.task.findUnique.mockResolvedValue(null);
     prisma.task.create.mockResolvedValue({ id: 2, name: 'Tarefa B', isCompleted: false, createdAt: new Date().toISOString() });
 
-    const task = await services.createNewTask({ name: 'Tarefa B' } as any);
+    const task = await services.createTask({ name: 'Tarefa B' } as any);
     expect(task.id).toBe(2);
     expect(task.name).toBe('Tarefa B');
   });
 
-  it('updateExistingTask throws when not found', async () => {
+  it('updateTask throws when not found', async () => {
     const mod = await import('../../src/utils/prisma');
     const { prisma } = mod as any;
     prisma.task.findUnique.mockResolvedValue(null);
 
-    await expect(services.updateExistingTask(99)).rejects.toThrow();
+    await expect(services.updateTask(99)).rejects.toThrow();
   });
 
-  it('updateExistingTask toggles isCompleted', async () => {
+  it('updateTask toggles isCompleted', async () => {
     const mod = await import('../../src/utils/prisma');
     const { prisma } = mod as any;
     prisma.task.findUnique.mockResolvedValue({ id: 3, isCompleted: false });
     prisma.task.update.mockResolvedValue({ id: 3, isCompleted: true });
 
-    const updated = await services.updateExistingTask(3);
+    const updated = await services.updateTask(3);
     expect(updated.isCompleted).toBe(true);
   });
 
-  it('deleteExistingTask throws when not found', async () => {
+  it('deleteTask throws when not found', async () => {
     const mod = await import('../../src/utils/prisma');
     const { prisma } = mod as any;
     prisma.task.findUnique.mockResolvedValue(null);
 
-    await expect(services.deleteExistingTask(999)).rejects.toThrow();
+    await expect(services.deleteTask(999)).rejects.toThrow();
   });
 
-  it('deleteExistingTask deletes when exists', async () => {
+  it('deleteTask deletes when exists', async () => {
     const mod = await import('../../src/utils/prisma');
     const { prisma } = mod as any;
     prisma.task.findUnique.mockResolvedValue({ id: 4 });
     prisma.task.delete.mockResolvedValue({ id: 4, name: 'X' });
 
-    const deleted = await services.deleteExistingTask(4);
+    const deleted = await services.deleteTask(4);
     expect(deleted.id).toBe(4);
+  });
+
+  it('deleteCompletedTasks removes completed tasks', async () => {
+    const mod = await import('../../src/utils/prisma');
+    const { prisma } = mod as any;
+    prisma.task.deleteMany.mockResolvedValue({ count: 3 });
+
+    const result = await services.deleteCompletedTasks();
+
+    expect(result.count).toBe(3);
   });
 });
