@@ -16,7 +16,7 @@ const fastify = Fastify({
 fastify.register(cors, {
   origin: true,
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 });
 
 fastify.register(helmet, {
