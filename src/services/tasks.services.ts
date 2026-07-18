@@ -7,26 +7,25 @@ export const getTasks = async (filter: TasksFilters) => {
   const where: any = {};
 
   if (search && search.trim()) {
-    where.OR = [
-      {
-        name: {
-          contains: search,
-          mode: 'insensitive',
-        },
-      },
-    ];
+    where.name = {
+      contains: search,
+      mode: 'insensitive',
+    };
   }
 
   if (isCompleted !== undefined) {
     where.isCompleted = isCompleted;
   }
 
-  const skip = (Number(page) - 1) * Number(limit);
-  const take = Number(limit);
+  const skip = (page - 1) * limit;
+  const take = limit;
 
   try {
     const [tasks, total] = await Promise.all([
       prisma.task.findMany({
+        orderBy: {
+          createdAt: 'desc',
+        },
         where,
         skip,
         take,
@@ -48,11 +47,11 @@ export const getTasks = async (filter: TasksFilters) => {
 };
 
 export const createTask = async (data: CreateTask) => {
-  const existingNewTask = await prisma.task.findUnique({
+  const existingTask = await prisma.task.findUnique({
     where: { name: data.name },
   });
 
-  if (existingNewTask) {
+  if (existingTask) {
     throw new Error('Essa tarefa já existe.');
   }
 
