@@ -47,7 +47,7 @@ export const getTasks = async (filter: TasksFilters) => {
   }
 };
 
-export const createNewTask = async (data: CreateTask) => {
+export const createTask = async (data: CreateTask) => {
   const existingNewTask = await prisma.task.findUnique({
     where: { name: data.name },
   });
@@ -60,7 +60,7 @@ export const createNewTask = async (data: CreateTask) => {
   return newTask;
 };
 
-export const updateExistingTask = async (id: number) => {
+export const updateTask = async (id: number) => {
   const existingTask = await prisma.task.findUnique({
     where: { id },
   });
@@ -77,7 +77,7 @@ export const updateExistingTask = async (id: number) => {
   return updatedTask;
 };
 
-export const deleteExistingTask = async (id: number) => {
+export const deleteTask = async (id: number) => {
   const existingTask = await prisma.task.findUnique({
     where: { id },
   });

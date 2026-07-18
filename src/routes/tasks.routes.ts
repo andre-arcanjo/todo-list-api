@@ -1,11 +1,11 @@
 import { FastifyInstance } from 'fastify';
 import { CreateTask, TasksFilters } from '../types';
 import {
-  createTask,
+  createTaskController,
   deleteCompletedTasksController,
-  deleteTask,
-  listTasks,
-  updateTask,
+  deleteTaskController,
+  getTasksController,
+  updateTaskController,
 } from '../controllers/tasks.controller';
 
 export const tasksRoutes = async (fastify: FastifyInstance) => {
@@ -80,7 +80,7 @@ export const tasksRoutes = async (fastify: FastifyInstance) => {
         },
       },
     },
-    listTasks,
+    getTasksController,
   );
 
   fastify.post<{ Body: CreateTask }>(
@@ -128,7 +128,7 @@ export const tasksRoutes = async (fastify: FastifyInstance) => {
         },
       },
     },
-    createTask,
+    createTaskController,
   );
 
   fastify.put<{ Params: { id: string } }>(
@@ -175,7 +175,7 @@ export const tasksRoutes = async (fastify: FastifyInstance) => {
         },
       },
     },
-    updateTask,
+    updateTaskController,
   );
 
   fastify.delete<{ Params: { id: string } }>(
@@ -216,7 +216,7 @@ export const tasksRoutes = async (fastify: FastifyInstance) => {
         },
       },
     },
-    deleteTask,
+    deleteTaskController,
   );
 
   fastify.delete(

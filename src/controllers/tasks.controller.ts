@@ -2,14 +2,14 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { CreateTask, TasksFilters } from '../types';
 import { createTaskSchema, tasksFiltersSchema } from '../utils/validator';
 import {
-  createNewTask,
+  createTask,
   deleteCompletedTasks,
-  deleteExistingTask,
+  deleteTask,
   getTasks,
-  updateExistingTask,
+  updateTask,
 } from '../services/tasks.services';
 
-export const listTasks = async (
+export const getTasksController = async (
   request: FastifyRequest<{ Querystring: TasksFilters }>,
   reply: FastifyReply,
 ) => {
@@ -18,12 +18,12 @@ export const listTasks = async (
   reply.status(200).send(result);
 };
 
-export const createTask = async (
+export const createTaskController = async (
   request: FastifyRequest<{ Body: CreateTask }>,
   reply: FastifyReply,
 ) => {
   const data = createTaskSchema.parse(request.body as CreateTask);
-  const task = await createNewTask(data);
+  const task = await createTask(data);
 
   reply.status(201).send({
     message: 'Tarefa criada com sucesso!',
@@ -31,23 +31,23 @@ export const createTask = async (
   });
 };
 
-export const updateTask = async (
+export const updateTaskController = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply,
 ) => {
   const { id } = request.params;
 
-  const task = await updateExistingTask(Number(id));
+  const task = await updateTask(Number(id));
   reply.status(200).send(task);
 };
 
-export const deleteTask = async (
+export const deleteTaskController = async (
   request: FastifyRequest<{ Params: { id: string } }>,
   reply: FastifyReply,
 ) => {
   const { id } = request.params;
 
-  await deleteExistingTask(Number(id));
+  await deleteTask(Number(id));
 
   reply.status(204).send();
 };
