@@ -20,8 +20,5 @@ export const tasksFiltersSchema = z.object({
     .min(1, 'Limite deve ser no mínimo 1')
     .optional(),
   search: z.string().optional(),
-  isCompleted: z
-    .union([z.boolean(), z.string()])
-    .transform((val) => val === true || val === 'true')
-    .optional(),
+  isCompleted: z.coerce.boolean().optional(),
 });

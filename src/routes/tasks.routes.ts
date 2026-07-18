@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { CreateTask, TasksFilters } from '../types';
 import {
   createTask,
+  deleteCompletedTasksController,
   deleteTask,
   listTasks,
   updateTask,
@@ -216,5 +217,28 @@ export const tasksRoutes = async (fastify: FastifyInstance) => {
       },
     },
     deleteTask,
+  );
+
+  fastify.delete(
+    '/completed',
+    {
+      schema: {
+        tags: ['Tasks'],
+        description: 'Deletar todas as tarefas completas',
+        response: {
+          204: {
+            description: 'Tarefas completas removidas com sucesso',
+          },
+          500: {
+            description: 'Erro interno do servidor',
+            type: 'object',
+            properties: {
+              message: { type: 'string' },
+            },
+          },
+        },
+      },
+    },
+    deleteCompletedTasksController,
   );
 };

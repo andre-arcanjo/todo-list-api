@@ -17,8 +17,8 @@ export const getTasks = async (filter: TasksFilters) => {
     ];
   }
 
-  if(isCompleted !== undefined) {
-    where.isCompleted = isCompleted
+  if (isCompleted !== undefined) {
+    where.isCompleted = isCompleted;
   }
 
   const skip = (Number(page) - 1) * Number(limit);
@@ -91,4 +91,14 @@ export const deleteExistingTask = async (id: number) => {
   });
 
   return deleteTask;
+};
+
+export const deleteCompletedTasks = async () => {
+  const deleteCompletedTasks = await prisma.task.deleteMany({
+    where: {
+      isCompleted: true,
+    },
+  });
+
+  return deleteCompletedTasks;
 };

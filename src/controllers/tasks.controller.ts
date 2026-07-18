@@ -3,6 +3,7 @@ import { CreateTask, TasksFilters } from '../types';
 import { createTaskSchema, tasksFiltersSchema } from '../utils/validator';
 import {
   createNewTask,
+  deleteCompletedTasks,
   deleteExistingTask,
   getTasks,
   updateExistingTask,
@@ -49,4 +50,13 @@ export const deleteTask = async (
   await deleteExistingTask(Number(id));
 
   reply.status(204).send();
+};
+
+export const deleteCompletedTasksController = async (
+  _request: FastifyRequest,
+  reply: FastifyReply,
+) => {
+  await deleteCompletedTasks();
+
+  return reply.status(204).send();
 };
