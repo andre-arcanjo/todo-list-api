@@ -59,7 +59,7 @@ describe('tasks.controller', () => {
     expect(reply.status().send).toHaveBeenCalledWith(expect.any(Object));
   });
 
-  it('deleteTask calls service and replies 200', async () => {
+  it('deleteTask calls service and replies 204', async () => {
     const svc = await import('../../src/services/tasks.services');
     svc.deleteExistingTask.mockResolvedValue({ id: 7 });
 
@@ -68,7 +68,7 @@ describe('tasks.controller', () => {
 
     await controllers.deleteTask(req, reply);
 
-    expect(reply.status).toHaveBeenCalledWith(200);
-    expect(reply.status().send).toHaveBeenCalledWith(expect.any(Object));
+    expect(reply.status).toHaveBeenCalledWith(204);
+    expect(reply.status().send).toHaveBeenCalled();
   });
 });

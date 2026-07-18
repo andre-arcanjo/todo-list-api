@@ -7,4 +7,5 @@ export interface TasksFilters {
   page?: number;
   limit?: number;
   search?: string;
+  isCompleted?: boolean;
 }

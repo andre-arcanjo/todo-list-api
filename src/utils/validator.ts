@@ -1,7 +1,10 @@
 import z from 'zod';
 
 export const createTaskSchema = z.object({
-  name: z.string().min(1, 'É necessário definir o nome da tarefa').max(50, 'O nome da tarefa deve ter no máximo 50 caracteres'),
+  name: z
+    .string()
+    .min(1, 'É necessário definir o nome da tarefa')
+    .max(50, 'O nome da tarefa deve ter no máximo 50 caracteres'),
   isCompleted: z.boolean().default(false),
 });
 
@@ -17,4 +20,8 @@ export const tasksFiltersSchema = z.object({
     .min(1, 'Limite deve ser no mínimo 1')
     .optional(),
   search: z.string().optional(),
+  isCompleted: z
+    .union([z.boolean(), z.string()])
+    .transform((val) => val === true || val === 'true')
+    .optional(),
 });

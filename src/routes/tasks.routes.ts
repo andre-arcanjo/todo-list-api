@@ -29,6 +29,10 @@ export const tasksRoutes = async (fastify: FastifyInstance) => {
               type: 'string',
               description: 'Texto para busca no nome da tarefa',
             },
+            isCompleted: {
+              type: 'boolean',
+              description: 'Filtrar tarefas completas ou incompletas',
+            },
           },
         },
         response: {
