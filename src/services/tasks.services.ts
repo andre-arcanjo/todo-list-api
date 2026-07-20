@@ -2,7 +2,7 @@ import { CreateTask, TasksFilters } from '../types';
 import { prisma } from '../utils/prisma';
 
 export const getTasks = async (filter: TasksFilters) => {
-  const { search, page = 1, limit = 10, isCompleted } = filter;
+  const { search, page = 1, limit = 50, isCompleted } = filter;
 
   const where: any = {};
 
